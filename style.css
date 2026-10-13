@@ -228,3 +228,32 @@ footer a {
     min-width: 480px;
   }
 }
+
+
+.site-footer {
+  margin-top: 50px;
+  padding: 30px 20px 18px;
+  background: #123b2b;
+  color: #fff;
+}
+.footer-content {
+  max-width: 1100px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 24px;
+}
+.site-footer h3, .site-footer h4 { color: #fff; }
+.site-footer a { color: #e5f5eb; text-decoration: none; }
+.site-footer a:hover { text-decoration: underline; }
+.footer-notice, .footer-copy {
+  max-width: 1100px;
+  margin: 22px auto 0;
+  line-height: 1.6;
+}
+.footer-notice {
+  padding-top: 15px;
+  border-top: 1px solid rgba(255,255,255,.25);
+  font-size: 13px;
+}
+.footer-copy { font-size: 12px; opacity: .8; }
