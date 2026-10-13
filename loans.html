@@ -19,112 +19,147 @@ button{background:#1769aa;color:white;padding:13px 20px;border:0;border-radius:6
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="notice">DEMO ONLY — This form does not submit a real loan application.</div>
-<header><strong>TOWER SACCO</strong><a href="index.html" style="color:white">← Home</a></header>
-<main>
-<div class="card">
-<h1>Loan Information</h1>
-<p>Explore loan options and use this sample form to preview the application process.</p>
-<form id="loanForm">
-<label>Demo applicant name</label>
-<input type="text" placeholder="Example Applicant" required>
-<label>Loan category</label>
-<select required>
-<option value="">Choose a category</option>
-<option>Development loan</option>
-<option>Emergency loan</option>
-<option>Business loan</option>
-<option>Education loan</option>
-</select>
-<label>Requested amount (KSh)</label>
-<input type="number" min="1" max="10000000" placeholder="50000" required>
-<label>Purpose</label>
-<textarea rows="3" placeholder="Describe the intended use" required></textarea>
-<button type="submit">Preview Application</button>
-</form>
-<p id="result"></p>
-</div>
+<main class="loan-demo">
+  <section class="loan-heading">
+    <h1>Loan Calculator</h1>
+    <p>Explore a fictional loan estimate using this demonstration calculator.</p>
+    <div class="demo-alert">
+      DEMO ONLY: This calculator is not connected to Tower SACCO and does
+      not submit a real loan application. The example rate is illustrative,
+      not an actual SACCO offer.
+    </div>
+  </section>
+
+  <section class="loan-panel">
+    <h2>Calculate an Example Loan</h2>
+
+    <form id="loan-calculator">
+      <label for="loan-type">Example loan type</label>
+      <select id="loan-type">
+        <option value="Personal">Personal loan</option>
+        <option value="Emergency">Emergency loan</option>
+        <option value="Development">Development loan</option>
+        <option value="Business">Business loan</option>
+      </select>
+
+      <label for="loan-amount">Example loan amount (KSh)</label>
+      <input id="loan-amount" type="number" min="1000" max="1000000"
+             step="1000" value="50000" required>
+
+      <label for="loan-months">Example repayment period</label>
+      <select id="loan-months">
+        <option value="6">6 months</option>
+        <option value="12" selected>12 months</option>
+        <option value="24">24 months</option>
+        <option value="36">36 months</option>
+      </select>
+
+      <label for="loan-rate">Illustrative annual interest rate (%)</label>
+      <input id="loan-rate" type="number" min="0" max="50" step="0.5"
+             value="12" required>
+
+      <button type="submit">Calculate Example</button>
+    </form>
+
+    <div id="loan-result" class="loan-result" aria-live="polite">
+      <h3>Example repayment estimate</h3>
+      <p>Choose your example loan details and calculate.</p>
+    </div>
+  </section>
 </main>
-<script>
-document.getElementById('loanForm').addEventListener('submit',function(e){
-e.preventDefault();
-document.getElementById('result').textContent='Demo complete. No application was submitted or stored.';
-});
-</script>
+
+<style>
+.loan-demo {
+  max-width: 850px;
+  margin: 30px auto;
+  padding: 20px;
+}
+.loan-heading { margin-bottom: 25px; }
+.demo-alert {
+  margin-top: 18px;
+  padding: 15px;
+  border-radius: 10px;
+  background: #fff4d9;
+  color: #654b0c;
+  line-height: 1.6;
+}
+.loan-panel {
+  padding: 25px;
+  background: #fff;
+  border: 1px solid #e0e9e3;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.05);
+}
+#loan-calculator { display: grid; gap: 10px; }
+#loan-calculator label { font-weight: 600; margin-top: 8px; }
+#loan-calculator input, #loan-calculator select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #ccd8d0;
+  border-radius: 8px;
+  font: inherit;
+}
+#loan-calculator button {
+  margin-top: 12px;
+  padding: 13px;
+  border: 0;
+  border-radius: 8px;
+  background: #176b45;
+  color: white;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.loan-result {
+  margin-top: 22px;
+  padding: 18px;
+  border-radius: 10px;
+  background: #f0f7f2;
+  line-height: 1.7;
+}
+.loan-result h3 { color: #176b45; }
+</style>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const nav = document.querySelector("nav");
-    if (!nav) return;
+document.getElementById("loan-calculator").addEventListener("submit", function(event) {
+  event.preventDefault();
 
-    const header = nav.parentElement;
-    if (!header) return;
+  const amount = Number(document.getElementById("loan-amount").value);
+  const months = Number(document.getElementById("loan-months").value);
+  const annualRate = Number(document.getElementById("loan-rate").value);
+  const type = document.getElementById("loan-type").value;
+  const result = document.getElementById("loan-result");
 
-    const button = document.createElement("button");
-    button.className = "mobile-menu-toggle";
-    button.textContent = "☰ Menu";
-    button.setAttribute("aria-expanded", "false");
-    button.style.display = "none";
-    button.style.margin = "10px 0";
-    button.style.padding = "10px 16px";
-    button.style.border = "0";
-    button.style.borderRadius = "8px";
-    button.style.cursor = "pointer";
+  if (!Number.isFinite(amount) || amount < 1000 || amount > 1000000 ||
+      !Number.isFinite(annualRate) || annualRate < 0 || annualRate > 50) {
+    result.innerHTML = "<h3>Check your entries</h3><p>Enter a loan amount between KSh 1,000 and KSh 1,000,000 and an annual rate between 0% and 50%.</p>";
+    return;
+  }
 
-    header.insertBefore(button, nav);
+  const monthlyRate = annualRate / 100 / 12;
+  const payment = monthlyRate === 0
+    ? amount / months
+    : amount * monthlyRate / (1 - Math.pow(1 + monthlyRate, -months));
 
-    function updateMenu() {
-        if (window.innerWidth <= 650) {
-            button.style.display = "inline-block";
-            nav.style.display = button.getAttribute("aria-expanded") === "true" ? "flex" : "none";
-            nav.style.flexDirection = "column";
-            nav.style.alignItems = "flex-start";
-        } else {
-            button.style.display = "none";
-            nav.style.display = "";
-            nav.style.flexDirection = "";
-            nav.style.alignItems = "";
-        }
-    }
+  const total = payment * months;
+  const interest = total - amount;
+  const fmt = n => n.toLocaleString("en-KE", {
+    style: "currency", currency: "KES", maximumFractionDigits: 2
+  });
 
-    button.addEventListener("click", function () {
-        const open = button.getAttribute("aria-expanded") !== "true";
-        button.setAttribute("aria-expanded", String(open));
-        updateMenu();
-    });
-
-    window.addEventListener("resize", updateMenu);
-    updateMenu();
+  result.innerHTML = `
+    <h3>Illustrative estimate — ${type} loan</h3>
+    <p>Example amount: <strong>${fmt(amount)}</strong></p>
+    <p>Example period: <strong>${months} months</strong></p>
+    <p>Illustrative annual rate: <strong>${annualRate}%</strong></p>
+    <p>Estimated monthly payment: <strong>${fmt(payment)}</strong></p>
+    <p>Illustrative total interest: <strong>${fmt(interest)}</strong></p>
+    <p>Illustrative total repayment: <strong>${fmt(total)}</strong></p>
+    <small>This is a mathematical estimate only. Actual loan terms, fees, and repayment methods may differ. No application was submitted.</small>
+  `;
 });
 </script>
-\n
-<footer class="site-footer">
-  <div class="footer-content">
-    <div>
-      <h3>TOWER SACCO</h3>
-      <p>A demonstration website for exploring SACCO-style services.</p>
-    </div>
-    <div>
-      <h4>Quick Links</h4>
-      <p><a href="index.html">Home</a></p>
-      <p><a href="savings.html">Savings</a></p>
-      <p><a href="loans.html">Loans</a></p>
-      <p><a href="transactions.html">Transactions</a></p>
-      <p><a href="dashboard.html">Dashboard</a></p>
-    </div>
-    <div>
-      <h4>Account</h4>
-      <p><a href="login.html">Demo Login</a></p>
-      <p><a href="signup.html">Demo Registration</a></p>
-      <p><a href="profile.html">Demo Profile</a></p>
-    </div>
-  </div>
-  <p class="footer-notice">
-    Independent demonstration prototype. Not an official Tower SACCO service.
-    Do not enter real banking credentials or personal financial information.
-  </p>
-  <p class="footer-copy">&copy; 2026 TOWER SACCO Demo</p>
-</footer>
 
 </body>
 </html>
