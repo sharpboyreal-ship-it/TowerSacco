@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loans | TOWER SACCO Demo</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#26364b}
+header{background:#123d72;color:white;padding:22px 6%;display:flex;justify-content:space-between;flex-wrap:wrap}
+header a{color:white;text-decoration:none}
+main{max-width:750px;margin:35px auto;padding:20px}
+.card{background:white;padding:28px;border-radius:12px;box-shadow:0 4px 16px #0001}
+h1,h2{color:#123d72}
+label{display:block;margin-top:16px}
+input,select,textarea{width:100%;padding:12px;margin-top:7px;border:1px solid #ccd5e0;border-radius:6px;box-sizing:border-box}
+button{background:#1769aa;color:white;padding:13px 20px;border:0;border-radius:6px;margin-top:20px;cursor:pointer}
+.notice{background:#fff0c7;padding:12px;text-align:center;font-size:13px}
+</style>
+</head>
+<body>
+<div class="notice">DEMO ONLY — This form does not submit a real loan application.</div>
+<header><strong>TOWER SACCO</strong><a href="index.html" style="color:white">← Home</a></header>
+<main>
+<div class="card">
+<h1>Loan Information</h1>
+<p>Explore loan options and use this sample form to preview the application process.</p>
+<form id="loanForm">
+<label>Demo applicant name</label>
+<input type="text" placeholder="Example Applicant" required>
+<label>Loan category</label>
+<select required>
+<option value="">Choose a category</option>
+<option>Development loan</option>
+<option>Emergency loan</option>
+<option>Business loan</option>
+<option>Education loan</option>
+</select>
+<label>Requested amount (KSh)</label>
+<input type="number" min="1" max="10000000" placeholder="50000" required>
+<label>Purpose</label>
+<textarea rows="3" placeholder="Describe the intended use" required></textarea>
+<button type="submit">Preview Application</button>
+</form>
+<p id="result"></p>
+</div>
+</main>
+<script>
+document.getElementById('loanForm').addEventListener('submit',function(e){
+e.preventDefault();
+document.getElementById('result').textContent='Demo complete. No application was submitted or stored.';
+});
+</script>
+</body>
+</html>
