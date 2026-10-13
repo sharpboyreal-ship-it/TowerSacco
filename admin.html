@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | Tower SACCO Demo</title>
+
+<style>
+:root {
+  --navy: #123d72;
+  --blue: #1769aa;
+  --gold: #f2b632;
+  --bg: #f3f6fb;
+  --white: #ffffff;
+  --text: #26364b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  background: var(--navy);
+  color: white;
+  padding: 20px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: var(--gold);
+}
+
+header a {
+  color: white;
+  text-decoration: none;
+}
+
+.notice {
+  background: #fff0c7;
+  color: #684d08;
+  text-align: center;
+  padding: 12px;
+  font-size: 13px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  min-height: 85vh;
+}
+
+.sidebar {
+  background: white;
+  padding: 25px 15px;
+  border-right: 1px solid #e1e8f0;
+}
+
+.sidebar h3 {
+  color: var(--navy);
+  padding-left: 12px;
+}
+
+.sidebar a {
+  display: block;
+  padding: 13px 12px;
+  margin: 5px 0;
+  border-radius: 6px;
+  color: var(--navy);
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  background: #edf5ff;
+}
+
+main {
+  padding: 30px;
+  min-width: 0;
+}
+
+h1, h2 {
+  color: var(--navy);
+}
+
+.subtitle {
+  color: #718096;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 18px;
+  margin: 25px 0;
+}
+
+.card {
+  background: white;
+  padding: 23px;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px #00000008;
+}
+
+.card h3 {
+  color: #718096;
+  font-size: 14px;
+}
+
+.metric {
+  font-size: 27px;
+  font-weight: bold;
+  color: var(--navy);
+}
+
+.panel {
+  background: white;
+  padding: 24px;
+  border-radius: 10px;
+  margin-top: 25px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 470px;
+}
+
+th, td {
+  text-align: left;
+  padding: 14px;
+  border-bottom: 1px solid #e7edf4;
+}
+
+th {
+  color: var(--navy);
+  font-size: 13px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 9px;
+  border-radius: 5px;
+  background: #fff0c7;
+  color: #76550b;
+  font-size: 12px;
+}
+
+.button {
+  display: inline-block;
+  background: var(--blue);
+  color: white;
+  padding: 12px 17px;
+  text-decoration: none;
+  border-radius: 6px;
+  margin-top: 10px;
+  border: 0;
+  cursor: pointer;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #718096;
+  font-size: 13px;
+}
+
+@media (max-width: 700px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid #e1e8f0;
+  }
+
+  .sidebar a {
+    display: inline-block;
+  }
+
+  main {
+    padding: 18px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="notice">
+DEMONSTRATION ONLY — All statistics and member records are fictional.
+</div>
+
+<header>
+  <div class="logo">TOWER <span>SACCO</span></div>
+  <a href="index.html">← View Homepage</a>
+</header>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <h3>Admin Menu</h3>
+
+    <a href="#overview">📊 Overview</a>
+    <a href="#members">👥 Members</a>
+    <a href="#loans">📝 Loan Applications</a>
+    <a href="#reports">📈 Reports</a>
+    <a href="dashboard.html">🏦 Member Dashboard</a>
+    <a href="index.html">🌐 Homepage</a>
+  </aside>
+
+  <main>
+
+    <section id="overview">
+      <h1>Admin Dashboard</h1>
+      <p class="subtitle">
+        Sample administrative overview for the demonstration website.
+      </p>
+
+      <div class="cards">
+
+        <div class="card">
+          <h3>Sample Members</h3>
+          <div class="metric">125</div>
+          <p>Fictional member count</p>
+        </div>
+
+        <div class="card">
+          <h3>Sample Savings</h3>
+          <div class="metric">KSh 2.4M</div>
+          <p>Fictional total</p>
+        </div>
+
+        <div class="card">
+          <h3>Sample Loans</h3>
+          <div class="metric">KSh 850K</div>
+          <p>Fictional loan total</p>
+        </div>
+
+        <div class="card">
+          <h3>Pending Applications</h3>
+          <div class="metric">8</div>
+          <p>Fictional application count</p>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="panel" id="members">
+      <h2>Sample Members</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Member ID</th>
+            <th>Name</th>
+            <th>Membership</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>DEMO-001</td>
+            <td>Alex Example</td>
+            <td>Standard</td>
+            <td><span class="badge">Demo</span></td>
+          </tr>
+
+          <tr>
+            <td>DEMO-002</td>
+            <td>Jane Example</td>
+            <td>Standard</td>
+            <td><span class="badge">Demo</span></td>
+          </tr>
+
+          <tr>
+            <td>DEMO-003</td>
+            <td>Sam Example</td>
+            <td>Premium</td>
+            <td><span class="badge">Demo</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel" id="loans">
+      <h2>Loan Applications</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Application ID</th>
+            <th>Applicant</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>LOAN-DEMO-01</td>
+            <td>Alex Example</td>
+            <td>KSh 30,000</td>
+            <td><span class="badge">Pending Demo</span></td>
+          </tr>
+
+          <tr>
+            <td>LOAN-DEMO-02</td>
+            <td>Jane Example</td>
+            <td>KSh 50,000</td>
+            <td><span class="badge">Pending Demo</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>These applications are examples, not actual requests.</p>
+    </section>
+
+    <section class="panel" id="reports">
+      <h2>Reports</h2>
+
+      <p>
+        This section will eventually support authorized reports for
+        membership, savings, loans and transactions.
+      </p>
+
+      <button class="button" onclick="alert('Reports require a connected database. No real report was generated.')">
+        Preview Reports
+      </button>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  Tower SACCO Website Demonstration © 2026.
+  <br>
+  No real member information or financial data is connected.
+</footer>
+
+</body>
+</html>
