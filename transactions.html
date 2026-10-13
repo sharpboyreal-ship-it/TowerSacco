@@ -19,96 +19,182 @@ th{color:#123d72}
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="notice">DEMO ONLY — These are fictional transactions.</div>
-<header><strong>TOWER SACCO</strong><a href="index.html">← Home</a></header>
-<main>
-<h1>Transaction History</h1>
-<div class="card">
-<table>
-<thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Status</th></tr></thead>
-<tbody>
-<tr><td>01 Oct 2026</td><td>Sample contribution</td><td>KSh 2,500</td><td>Demo</td></tr>
-<tr><td>25 Sep 2026</td><td>Sample repayment</td><td>KSh 1,000</td><td>Demo</td></tr>
-<tr><td>20 Sep 2026</td><td>Sample deposit</td><td>KSh 3,000</td><td>Demo</td></tr>
-</tbody>
-</table>
-<p>These records are examples only. No real financial activity is represented.</p>
-</div>
+<main class="transactions-page">
+  <header class="transactions-heading">
+    <h1>Transaction History</h1>
+    <p>Review fictional transactions for the website demonstration.</p>
+    <div class="transactions-notice">
+      DEMO ONLY: These are invented records. No real SACCO account or payment
+      system is connected.
+    </div>
+  </header>
+
+  <section class="transaction-summary">
+    <article class="transaction-card">
+      <span>Sample Deposits</span>
+      <h2 id="deposit-total">KSh 0</h2>
+    </article>
+    <article class="transaction-card">
+      <span>Sample Withdrawals</span>
+      <h2 id="withdrawal-total">KSh 0</h2>
+    </article>
+    <article class="transaction-card">
+      <span>Sample Transactions</span>
+      <h2 id="transaction-count">0</h2>
+    </article>
+  </section>
+
+  <section class="transaction-tools">
+    <label for="transaction-search">Search description or reference</label>
+    <input id="transaction-search" type="search"
+           placeholder="Search sample transactions">
+
+    <label for="transaction-filter">Filter by type</label>
+    <select id="transaction-filter">
+      <option value="all">All transactions</option>
+      <option value="Deposit">Deposits</option>
+      <option value="Withdrawal">Withdrawals</option>
+      <option value="Payment">Payments</option>
+    </select>
+
+    <button id="export-transactions" type="button">Export Visible Records to CSV</button>
+  </section>
+
+  <div class="table-wrap">
+    <table class="transaction-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Reference</th>
+          <th>Description</th>
+          <th>Type</th>
+          <th>Amount</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="transaction-rows"></tbody>
+    </table>
+  </div>
+
+  <p id="transaction-empty" hidden>No sample transactions match your search.</p>
+  <p class="transaction-disclaimer">All dates, references, and amounts below are fictional examples.</p>
 </main>
 
+<style>
+.transactions-page { max-width: 1150px; margin: 30px auto; padding: 20px; }
+.transactions-heading { margin-bottom: 24px; }
+.transactions-notice {
+  margin-top: 15px; padding: 14px; border-radius: 9px;
+  background: #fff4d9; color: #654b0c; line-height: 1.6;
+}
+.transaction-summary {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 16px; margin-bottom: 24px;
+}
+.transaction-card {
+  padding: 20px; border: 1px solid #e0e9e3; border-radius: 12px;
+  background: #fff;
+}
+.transaction-card span { color: #426653; font-size: 14px; }
+.transaction-card h2 { color: #176b45; margin-bottom: 0; }
+.transaction-tools {
+  display: grid; grid-template-columns: 1fr 1fr auto;
+  gap: 10px; align-items: end; margin: 20px 0;
+}
+.transaction-tools label { font-weight: 600; }
+.transaction-tools input, .transaction-tools select {
+  box-sizing: border-box; width: 100%; padding: 11px;
+  border: 1px solid #ccd8d0; border-radius: 8px; font: inherit;
+}
+.transaction-tools button {
+  padding: 12px; border: 0; border-radius: 8px;
+  background: #176b45; color: #fff; font: inherit; cursor: pointer;
+}
+.table-wrap { overflow-x: auto; }
+.transaction-table { width: 100%; border-collapse: collapse; background: #fff; }
+.transaction-table th, .transaction-table td {
+  text-align: left; padding: 13px; border-bottom: 1px solid #e0e9e3;
+  white-space: nowrap;
+}
+.transaction-table th { background: #176b45; color: #fff; }
+.transaction-table tr:nth-child(even) { background: #f5f9f6; }
+.transaction-disclaimer { font-size: 13px; margin-top: 18px; }
+@media(max-width:700px) {
+  .transaction-tools { grid-template-columns: 1fr; }
+}
+</style>
+
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const nav = document.querySelector("nav");
-    if (!nav) return;
+const sampleTransactions = [
+  {date:"2026-10-10", ref:"DEMO-1001", description:"Monthly savings example", type:"Deposit", amount:5000, status:"Sample"},
+  {date:"2026-10-08", ref:"DEMO-1002", description:"Example service payment", type:"Payment", amount:1200, status:"Sample"},
+  {date:"2026-10-05", ref:"DEMO-1003", description:"Example withdrawal", type:"Withdrawal", amount:2000, status:"Sample"},
+  {date:"2026-10-01", ref:"DEMO-1004", description:"Monthly savings example", type:"Deposit", amount:3500, status:"Sample"},
+  {date:"2026-09-27", ref:"DEMO-1005", description:"Example service payment", type:"Payment", amount:800, status:"Sample"},
+  {date:"2026-09-20", ref:"DEMO-1006", description:"Example withdrawal", type:"Withdrawal", amount:1500, status:"Sample"},
+  {date:"2026-09-15", ref:"DEMO-1007", description:"Monthly savings example", type:"Deposit", amount:4000, status:"Sample"}
+];
 
-    const header = nav.parentElement;
-    if (!header) return;
+const money = n => "KSh " + n.toLocaleString("en-KE", {maximumFractionDigits:2});
+const searchBox = document.getElementById("transaction-search");
+const filterBox = document.getElementById("transaction-filter");
+const rows = document.getElementById("transaction-rows");
+const empty = document.getElementById("transaction-empty");
 
-    const button = document.createElement("button");
-    button.className = "mobile-menu-toggle";
-    button.textContent = "☰ Menu";
-    button.setAttribute("aria-expanded", "false");
-    button.style.display = "none";
-    button.style.margin = "10px 0";
-    button.style.padding = "10px 16px";
-    button.style.border = "0";
-    button.style.borderRadius = "8px";
-    button.style.cursor = "pointer";
+document.getElementById("deposit-total").textContent =
+  money(sampleTransactions.filter(t => t.type === "Deposit").reduce((s,t) => s+t.amount,0));
+document.getElementById("withdrawal-total").textContent =
+  money(sampleTransactions.filter(t => t.type === "Withdrawal").reduce((s,t) => s+t.amount,0));
+document.getElementById("transaction-count").textContent = sampleTransactions.length;
 
-    header.insertBefore(button, nav);
+function visibleTransactions() {
+  const query = searchBox.value.trim().toLowerCase();
+  const type = filterBox.value;
+  return sampleTransactions.filter(t => {
+    const matchesText = [t.date,t.ref,t.description,t.type,t.status].join(" ").toLowerCase().includes(query);
+    return matchesText && (type === "all" || t.type === type);
+  });
+}
 
-    function updateMenu() {
-        if (window.innerWidth <= 650) {
-            button.style.display = "inline-block";
-            nav.style.display = button.getAttribute("aria-expanded") === "true" ? "flex" : "none";
-            nav.style.flexDirection = "column";
-            nav.style.alignItems = "flex-start";
-        } else {
-            button.style.display = "none";
-            nav.style.display = "";
-            nav.style.flexDirection = "";
-            nav.style.alignItems = "";
-        }
-    }
+function renderTransactions() {
+  const data = visibleTransactions();
+  rows.replaceChildren();
 
-    button.addEventListener("click", function () {
-        const open = button.getAttribute("aria-expanded") !== "true";
-        button.setAttribute("aria-expanded", String(open));
-        updateMenu();
+  for (const t of data) {
+    const tr = document.createElement("tr");
+    [t.date,t.ref,t.description,t.type,money(t.amount),t.status].forEach(value => {
+      const td = document.createElement("td");
+      td.textContent = value;
+      tr.appendChild(td);
     });
+    rows.appendChild(tr);
+  }
 
-    window.addEventListener("resize", updateMenu);
-    updateMenu();
+  empty.hidden = data.length !== 0;
+}
+
+searchBox.addEventListener("input", renderTransactions);
+filterBox.addEventListener("change", renderTransactions);
+
+document.getElementById("export-transactions").addEventListener("click", function() {
+  const data = visibleTransactions();
+  const csvCell = value => '"' + String(value).replace(/"/g, '""') + '"';
+  const lines = [
+    ["Date","Reference","Description","Type","Amount_KSh","Status"],
+    ...data.map(t => [t.date,t.ref,t.description,t.type,t.amount,t.status])
+  ].map(row => row.map(csvCell).join(",")).join("\r\n");
+
+  const blob = new Blob(["\uFEFF" + lines], {type:"text/csv;charset=utf-8;"});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "tower-sacco-demo-transactions.csv";
+  link.click();
+  URL.revokeObjectURL(url);
 });
+
+renderTransactions();
 </script>
-\n
-<footer class="site-footer">
-  <div class="footer-content">
-    <div>
-      <h3>TOWER SACCO</h3>
-      <p>A demonstration website for exploring SACCO-style services.</p>
-    </div>
-    <div>
-      <h4>Quick Links</h4>
-      <p><a href="index.html">Home</a></p>
-      <p><a href="savings.html">Savings</a></p>
-      <p><a href="loans.html">Loans</a></p>
-      <p><a href="transactions.html">Transactions</a></p>
-      <p><a href="dashboard.html">Dashboard</a></p>
-    </div>
-    <div>
-      <h4>Account</h4>
-      <p><a href="login.html">Demo Login</a></p>
-      <p><a href="signup.html">Demo Registration</a></p>
-      <p><a href="profile.html">Demo Profile</a></p>
-    </div>
-  </div>
-  <p class="footer-notice">
-    Independent demonstration prototype. Not an official Tower SACCO service.
-    Do not enter real banking credentials or personal financial information.
-  </p>
-  <p class="footer-copy">&copy; 2026 TOWER SACCO Demo</p>
-</footer>
 
 </body>
 </html>
