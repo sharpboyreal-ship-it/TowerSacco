@@ -285,5 +285,169 @@ document.addEventListener("DOMContentLoaded", function () {
   <p class="footer-copy">&copy; 2026 TOWER SACCO Demo</p>
 </footer>
 
-</body>
+
+<section id="demo-profile-editor" class="profile-editor">
+  <h1>Member Profile</h1>
+  <p>Update the example information below to preview your profile.</p>
+
+  <div class="profile-notice">
+    <strong>DEMO ONLY:</strong> This is not an official Tower SACCO account.
+    Use fictional information only. Changes are saved only in this browser.
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-avatar" aria-hidden="true">👤</div>
+    <h2 id="profile-display-name">Demo Member</h2>
+    <p id="profile-display-email">demo@example.com</p>
+    <span class="demo-badge">DEMO MEMBER</span>
+  </div>
+
+  <form id="profile-edit-form">
+    <label for="demo-name">Display name</label>
+    <input id="demo-name" type="text" maxlength="60"
+           value="Demo Member" required>
+
+    <label for="demo-email">Example email</label>
+    <input id="demo-email" type="email" maxlength="100"
+           value="demo@example.com" required>
+
+    <label for="demo-location">Example town</label>
+    <input id="demo-location" type="text" maxlength="60"
+           value="Nairobi" required>
+
+    <button type="submit">Save Demo Profile</button>
+    <button type="button" id="reset-demo-profile">Reset Example</button>
+  </form>
+
+  <div id="profile-save-message" aria-live="polite"></div>
+  <p id="profile-display-location">Example town: Nairobi</p>
+</section>
+
+<style>
+.profile-editor {
+  max-width: 760px;
+  margin: 30px auto;
+  padding: 20px;
+}
+.profile-notice {
+  margin: 18px 0;
+  padding: 15px;
+  border-radius: 10px;
+  background: #fff4d9;
+  color: #654b0c;
+  line-height: 1.6;
+}
+.profile-card {
+  text-align: center;
+  margin: 22px 0;
+  padding: 25px;
+  border: 1px solid #e0e9e3;
+  border-radius: 14px;
+  background: #f5f9f6;
+}
+.profile-avatar { font-size: 44px; }
+.profile-card h2 { color: #176b45; }
+.demo-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #dcefe3;
+  color: #176b45;
+  font-size: 12px;
+  font-weight: 700;
+}
+#profile-edit-form { display: grid; gap: 10px; }
+#profile-edit-form label { margin-top: 8px; font-weight: 600; }
+#profile-edit-form input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccd8d0;
+  border-radius: 8px;
+  font: inherit;
+}
+#profile-edit-form button {
+  padding: 12px;
+  border: 0;
+  border-radius: 8px;
+  background: #176b45;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+#profile-edit-form button[type="button"] {
+  background: #52645a;
+}
+#profile-save-message {
+  margin-top: 15px;
+  font-weight: 600;
+}
+</style>
+
+<script>
+(function () {
+  const storageKey = "towerSaccoDemoProfile";
+  const defaults = {
+    name: "Demo Member",
+    email: "demo@example.com",
+    location: "Nairobi"
+  };
+
+  const nameInput = document.getElementById("demo-name");
+  const emailInput = document.getElementById("demo-email");
+  const locationInput = document.getElementById("demo-location");
+  const message = document.getElementById("profile-save-message");
+
+  function render(profile) {
+    nameInput.value = profile.name;
+    emailInput.value = profile.email;
+    locationInput.value = profile.location;
+
+    document.getElementById("profile-display-name").textContent = profile.name;
+    document.getElementById("profile-display-email").textContent = profile.email;
+    document.getElementById("profile-display-location").textContent =
+      "Example town: " + profile.location;
+  }
+
+  try {
+    const saved = localStorage.getItem(storageKey);
+    render(saved ? {...defaults, ...JSON.parse(saved)} : defaults);
+  } catch (error) {
+    render(defaults);
+  }
+
+  document.getElementById("profile-edit-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const profile = {
+      name: nameInput.value.trim(),
+      email: emailInput.value.trim(),
+      location: locationInput.value.trim()
+    };
+
+    if (!profile.name || !profile.email || !profile.location) {
+      message.textContent = "Please complete all fields.";
+      return;
+    }
+
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(profile));
+      render(profile);
+      message.textContent = "Demo profile saved in this browser.";
+    } catch (error) {
+      message.textContent = "Browser storage is unavailable. Your changes were not saved.";
+    }
+  });
+
+  document.getElementById("reset-demo-profile").addEventListener("click", function () {
+    try {
+      localStorage.removeItem(storageKey);
+    } catch (error) {}
+
+    render(defaults);
+    message.textContent = "Example profile restored.";
+  });
+})();
+</script>
+\n</body>
 </html>
