@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tower SACCO | Financial Services</title>
+  <meta name="description" content="A modern SACCO demonstration website for savings, loans and member services.">
+  <style>
+    :root {
+      --navy: #123d72;
+      --blue: #1769aa;
+      --gold: #f2b632;
+      --light: #f4f7fb;
+      --white: #ffffff;
+      --text: #243247;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background: var(--light);
+    }
+
+    header {
+      background: var(--white);
+      padding: 18px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      box-shadow: 0 2px 12px #0000000d;
+    }
+
+    .brand {
+      color: var(--navy);
+      font-size: 25px;
+      font-weight: 800;
+    }
+
+    .brand span { color: var(--gold); }
+
+    nav { display: flex; gap: 20px; flex-wrap: wrap; }
+
+    nav a {
+      color: var(--navy);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .hero {
+      background: linear-gradient(120deg, #123d72, #1769aa);
+      color: white;
+      padding: 75px 7%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 35px;
+      flex-wrap: wrap;
+    }
+
+    .hero-content { max-width: 600px; }
+
+    .hero h1 {
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.12;
+      margin: 0 0 20px;
+    }
+
+    .hero p {
+      font-size: 17px;
+      line-height: 1.8;
+      color: #e6effa;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 14px 22px;
+      border-radius: 6px;
+      background: var(--gold);
+      color: #17263a;
+      text-decoration: none;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      margin: 8px 8px 0 0;
+    }
+
+    .button.secondary {
+      background: transparent;
+      border: 1px solid white;
+      color: white;
+    }
+
+    .notice {
+      background: #fff4d4;
+      color: #684d08;
+      text-align: center;
+      padding: 12px;
+      font-size: 13px;
+    }
+
+    main { padding: 45px 7%; }
+
+    .section-title {
+      text-align: center;
+      color: var(--navy);
+      margin-bottom: 30px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: white;
+      padding: 28px;
+      border-radius: 12px;
+      box-shadow: 0 4px 18px #193d6510;
+    }
+
+    .card .icon { font-size: 32px; }
+
+    .card h3 { color: var(--navy); }
+
+    .card p { line-height: 1.7; color: #627087; }
+
+    .info {
+      margin-top: 35px;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    footer {
+      background: #102e52;
+      color: white;
+      padding: 28px 7%;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 18px 5%; }
+      nav { gap: 12px; }
+      .hero { padding: 50px 5%; }
+      main { padding: 35px 5%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="notice">
+    DEMONSTRATION WEBSITE — Not an official Tower SACCO member portal.
+  </div>
+
+  <header>
+    <div class="brand">TOWER <span>SACCO</span></div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <h1>Building Your Financial Future Together</h1>
+      <p>
+        Discover savings solutions, learn about loan options and explore
+        financial services designed to help members plan for tomorrow.
+      </p>
+      <a class="button" href="#services">Explore Services</a>
+      <a class="button secondary" href="#contact">Contact Us</a>
+    </div>
+    <div>
+      <div style="font-size:100px;text-align:center;">🏦</div>
+      <p style="text-align:center;">Save today. Grow tomorrow.</p>
+    </div>
+  </section>
+
+  <main>
+    <h2 class="section-title" id="services">Our Financial Services</h2>
+
+    <div class="cards">
+      <article class="card">
+        <div class="icon">💰</div>
+        <h3>Savings</h3>
+        <p>Explore savings options and learn how regular contributions can support your financial goals.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">📋</div>
+        <h3>Loans</h3>
+        <p>Discover loan options, eligibility information and repayment planning.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">📱</div>
+        <h3>Mobile Services</h3>
+        <p>Learn about convenient ways to access financial services from your device.</p>
+      </article>
+
+      <article class="card">
+        <div class="icon">🤝</div>
+        <h3>Membership</h3>
+        <p>Explore membership information and the benefits of saving together.</p>
+      </article>
+    </div>
+
+    <section class="info" id="about">
+      <h2>About This Website</h2>
+      <p>
+        This is a front-end demonstration built for learning and development.
+        It does not connect to real SACCO accounts, approve loans or process payments.
+      </p>
+    </section>
+
+    <section class="info" id="contact">
+      <h2>Need Assistance?</h2>
+      <p>For actual Tower SACCO services, contact the institution through its verified official channels.</p>
+    </section>
+  </main>
+
+  <footer>
+    <strong>TOWER SACCO — Website Demonstration</strong>
+    <br>
+    © 2026. Educational prototype; not an official financial service.
+  </footer>
+
+</body>
+</html>

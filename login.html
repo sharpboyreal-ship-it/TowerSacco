@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Member Login | SACCO Demo</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f2f6fb;display:grid;place-items:center;min-height:100vh}
+.box{background:white;width:min(360px,85%);padding:30px;border-radius:12px;box-shadow:0 5px 25px #0001}
+h2{color:#123d72;text-align:center}
+p{text-align:center;color:#65758b;font-size:14px}
+label{display:block;margin-top:16px;font-size:14px}
+input{width:100%;padding:12px;margin-top:7px;box-sizing:border-box;border:1px solid #ccd5e0;border-radius:6px}
+button{width:100%;padding:13px;background:#1769aa;color:white;border:0;border-radius:6px;margin-top:20px;cursor:pointer;font-weight:bold}
+a{color:#1769aa}
+.note{font-size:12px;line-height:1.6}
+</style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="box">
+<h2>Member Login</h2>
+<p>Demonstration portal</p>
+<div class="note">This demo does not authenticate real SACCO members. Do not enter real account credentials.</div>
+<form id="demoForm">
+<label>Email address</label>
+<input type="email" placeholder="demo@example.com" required>
+<label>Password</label>
+<input type="password" placeholder="Demo password" required>
+<button type="submit">Continue to Demo</button>
+</form>
+<p><a href="index.html">Back to Home</a> | <a href="signup.html">Register</a></p>
+</div>
+<script>
+document.getElementById('demoForm').addEventListener('submit',function(e){
+e.preventDefault();
+alert('This is a demonstration login only. Real authentication has not been configured.');
+});
+</script>
+</body>
+</html>

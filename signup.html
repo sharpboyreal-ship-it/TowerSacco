@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Registration | SACCO Demo</title>
+<style>
+body{margin:0;font-family:Arial,sans-serif;background:#f2f6fb;display:grid;place-items:center;min-height:100vh;padding:20px 0}
+.box{background:white;width:min(380px,85%);padding:30px;border-radius:12px;box-shadow:0 5px 25px #0001}
+h2{color:#123d72;text-align:center}
+p{text-align:center;color:#65758b;font-size:14px}
+label{display:block;margin-top:14px;font-size:14px}
+input{width:100%;padding:12px;margin-top:7px;box-sizing:border-box;border:1px solid #ccd5e0;border-radius:6px}
+button{width:100%;padding:13px;background:#1769aa;color:white;border:0;border-radius:6px;margin-top:20px;cursor:pointer;font-weight:bold}
+a{color:#1769aa}
+.note{font-size:12px;line-height:1.6}
+</style>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="box">
+<h2>Member Registration</h2>
+<p>Demonstration portal</p>
+<div class="note">This form is a visual demo only. It does not create a real SACCO membership account.</div>
+<form id="demoForm">
+<label>Full name</label>
+<input type="text" placeholder="Demo Member" required>
+<label>Email address</label>
+<input type="email" placeholder="demo@example.com" required>
+<label>Create password</label>
+<input type="password" minlength="8" placeholder="At least 8 characters" required>
+<button type="submit">Continue</button>
+</form>
+<p><a href="index.html">Back to Home</a> | <a href="login.html">Login</a></p>
+</div>
+<script>
+document.getElementById('demoForm').addEventListener('submit',function(e){
+e.preventDefault();
+alert('This is a demonstration form. No account has been created.');
+});
+</script>
+</body>
+</html>

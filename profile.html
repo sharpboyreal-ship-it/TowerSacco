@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Member Profile | Tower SACCO Demo</title>
+
+<style>
+:root {
+  --navy: #123d72;
+  --blue: #1769aa;
+  --gold: #f2b632;
+  --bg: #f3f6fb;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: #26364b;
+}
+
+header {
+  background: var(--navy);
+  color: white;
+  padding: 20px 6%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.logo span { color: var(--gold); }
+
+header a {
+  color: white;
+  text-decoration: none;
+}
+
+.notice {
+  background: #fff0c7;
+  color: #684d08;
+  text-align: center;
+  padding: 12px;
+  font-size: 13px;
+}
+
+.container {
+  max-width: 850px;
+  margin: 35px auto;
+  padding: 0 20px;
+}
+
+h1, h2 { color: var(--navy); }
+
+.card {
+  background: white;
+  padding: 28px;
+  margin-bottom: 22px;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px #00000008;
+}
+
+.avatar {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+  background: #e4efff;
+  display: grid;
+  place-items: center;
+  font-size: 38px;
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-top: 16px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+input {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  margin-top: 7px;
+  border: 1px solid #ccd5e0;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+button {
+  padding: 13px 20px;
+  margin-top: 20px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--blue);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.secondary {
+  display: inline-block;
+  background: #eaf1fa;
+  color: var(--navy);
+  padding: 12px 18px;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-top: 15px;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #718096;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .container { padding: 0 14px; }
+  .card { padding: 20px; }
+}
+</style>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="notice">
+DEMONSTRATION ONLY — Do not enter real member credentials or sensitive personal information.
+</div>
+
+<header>
+  <div class="logo">TOWER <span>SACCO</span></div>
+  <a href="dashboard.html">← Dashboard</a>
+</header>
+
+<main class="container">
+
+  <h1>Member Profile</h1>
+  <p>View and edit your sample profile information.</p>
+
+  <section class="card">
+    <div class="avatar">👤</div>
+    <h2>Demo Member</h2>
+    <p>Demonstration membership profile</p>
+  </section>
+
+  <section class="card">
+    <h2>Personal Information</h2>
+
+    <form id="profileForm">
+
+      <label for="fullname">Full Name</label>
+      <input id="fullname" type="text"
+             value="Demo Member" required>
+
+      <label for="email">Email Address</label>
+      <input id="email" type="email"
+             value="demo@example.com" required>
+
+      <label for="phone">Phone Number</label>
+      <input id="phone" type="tel"
+             placeholder="e.g. 07XX XXX XXX">
+
+      <label for="membership">Membership Type</label>
+      <input id="membership" type="text"
+             value="Demo Membership" readonly>
+
+      <button type="submit">Preview Profile Changes</button>
+
+      <p id="message" aria-live="polite"></p>
+
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>Membership Information</h2>
+    <p><strong>Account status:</strong> Demonstration only</p>
+    <p><strong>Member number:</strong> DEMO-0001</p>
+    <p><strong>Verification:</strong> Not verified</p>
+    <a class="secondary" href="dashboard.html">
+      Return to Dashboard
+    </a>
+  </section>
+
+</main>
+
+<footer>
+  Tower SACCO Website Demonstration © 2026
+  <br>
+  This page does not update any real member account.
+</footer>
+
+<script>
+document.getElementById("profileForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  document.getElementById("message").textContent =
+    "Preview complete. No information has been saved to a database.";
+});
+</script>
+
+</body>
+</html>
