@@ -431,5 +431,152 @@ document.addEventListener("DOMContentLoaded", function () {
   <p class="footer-copy">&copy; 2026 TOWER SACCO Demo</p>
 </footer>
 
-</body>
+
+<section id="demo-admin-tools" class="admin-tools">
+  <h1>Demo Member Management</h1>
+
+  <div class="admin-notice">
+    DEMONSTRATION ONLY: These are fictional members. This page has no real
+    administrative permissions and cannot access Tower SACCO member accounts.
+  </div>
+
+  <div class="admin-summary">
+    <article><span>Example Members</span><h2 id="admin-member-count">0</h2></article>
+    <article><span>Example Active</span><h2 id="admin-active-count">0</h2></article>
+    <article><span>Example Pending</span><h2 id="admin-pending-count">0</h2></article>
+  </div>
+
+  <div class="admin-controls">
+    <label for="admin-search">Search examples</label>
+    <input id="admin-search" type="search" placeholder="Search name or reference">
+
+    <label for="admin-status-filter">Filter status</label>
+    <select id="admin-status-filter">
+      <option value="all">All statuses</option>
+      <option value="Active">Active</option>
+      <option value="Pending">Pending</option>
+    </select>
+
+    <button id="admin-export" type="button">Export Demo CSV</button>
+  </div>
+
+  <div class="admin-table-wrap">
+    <table class="admin-members-table">
+      <thead>
+        <tr><th>Demo Reference</th><th>Display Name</th><th>Example Email</th><th>Status</th></tr>
+      </thead>
+      <tbody id="admin-members-rows"></tbody>
+    </table>
+  </div>
+  <p id="admin-empty" hidden>No example members match your search.</p>
+</section>
+
+<style>
+.admin-tools { max-width: 1100px; margin: 30px auto; padding: 20px; }
+.admin-notice {
+  margin: 18px 0; padding: 15px; border-radius: 9px;
+  background: #fff4d9; color: #654b0c; line-height: 1.6;
+}
+.admin-summary {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 15px; margin: 22px 0;
+}
+.admin-summary article {
+  padding: 20px; border: 1px solid #e0e9e3; border-radius: 12px; background: #fff;
+}
+.admin-summary span { color: #426653; }
+.admin-summary h2 { color: #176b45; }
+.admin-controls {
+  display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end;
+  margin: 20px 0;
+}
+.admin-controls label { font-weight: 600; }
+.admin-controls input, .admin-controls select {
+  box-sizing: border-box; width: 100%; padding: 11px;
+  border: 1px solid #ccd8d0; border-radius: 8px; font: inherit;
+}
+.admin-controls button {
+  padding: 12px; border: 0; border-radius: 8px;
+  background: #176b45; color: #fff; font: inherit; cursor: pointer;
+}
+.admin-table-wrap { overflow-x: auto; }
+.admin-members-table { width: 100%; border-collapse: collapse; background: #fff; }
+.admin-members-table th, .admin-members-table td {
+  padding: 13px; text-align: left; border-bottom: 1px solid #e0e9e3;
+}
+.admin-members-table th { background: #176b45; color: #fff; }
+.admin-members-table tr:nth-child(even) { background: #f5f9f6; }
+@media(max-width:700px) { .admin-controls { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+(function () {
+  const members = [
+    {ref:"DEMO-M001", name:"Sample Member One", email:"member1@example.com", status:"Active"},
+    {ref:"DEMO-M002", name:"Sample Member Two", email:"member2@example.com", status:"Pending"},
+    {ref:"DEMO-M003", name:"Sample Member Three", email:"member3@example.com", status:"Active"},
+    {ref:"DEMO-M004", name:"Sample Member Four", email:"member4@example.com", status:"Pending"},
+    {ref:"DEMO-M005", name:"Sample Member Five", email:"member5@example.com", status:"Active"}
+  ];
+
+  const search = document.getElementById("admin-search");
+  const filter = document.getElementById("admin-status-filter");
+  const rows = document.getElementById("admin-members-rows");
+  const empty = document.getElementById("admin-empty");
+
+  document.getElementById("admin-member-count").textContent = members.length;
+  document.getElementById("admin-active-count").textContent =
+    members.filter(m => m.status === "Active").length;
+  document.getElementById("admin-pending-count").textContent =
+    members.filter(m => m.status === "Pending").length;
+
+  function visibleMembers() {
+    const query = search.value.trim().toLowerCase();
+    return members.filter(m =>
+      [m.ref, m.name, m.email, m.status].join(" ").toLowerCase().includes(query) &&
+      (filter.value === "all" || m.status === filter.value)
+    );
+  }
+
+  function render() {
+    rows.replaceChildren();
+    const data = visibleMembers();
+
+    data.forEach(member => {
+      const tr = document.createElement("tr");
+      [member.ref, member.name, member.email, member.status].forEach(value => {
+        const td = document.createElement("td");
+        td.textContent = value;
+        tr.appendChild(td);
+      });
+      rows.appendChild(tr);
+    });
+
+    empty.hidden = data.length !== 0;
+  }
+
+  search.addEventListener("input", render);
+  filter.addEventListener("change", render);
+
+  document.getElementById("admin-export").addEventListener("click", function () {
+    const data = visibleMembers();
+    const cell = value => '"' + String(value).replace(/"/g, '""') + '"';
+    const csv = [
+      ["Reference", "Display Name", "Example Email", "Status"],
+      ...data.map(m => [m.ref, m.name, m.email, m.status])
+    ].map(row => row.map(cell).join(",")).join("\r\n");
+
+    const blob = new Blob(["\uFEFF" + csv], {type:"text/csv;charset=utf-8;"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "tower-sacco-demo-members.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+  });
+
+  render();
+})();
+</script>
+\n</body>
 </html>
