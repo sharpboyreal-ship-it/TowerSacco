@@ -111,5 +111,130 @@ document.addEventListener("DOMContentLoaded", function () {
   <p class="footer-copy">&copy; 2026 TOWER SACCO Demo</p>
 </footer>
 
-</body>
+
+<section id="savings-goal-calculator" class="goal-section">
+  <div class="goal-panel">
+    <h2>Savings Goal Calculator</h2>
+    <p>Plan how much you could save toward your personal goal.</p>
+
+    <div class="goal-notice">
+      DEMONSTRATION ONLY: This calculator does not access a real savings
+      account or make deposits. Figures are estimates and exclude interest.
+    </div>
+
+    <form id="goal-form">
+      <label for="goal-amount">Your savings target (KSh)</label>
+      <input id="goal-amount" type="number" min="1" max="100000000"
+             value="100000" required>
+
+      <label for="goal-current">Amount already saved (KSh)</label>
+      <input id="goal-current" type="number" min="0" max="100000000"
+             value="10000" required>
+
+      <label for="goal-months">Months to reach your goal</label>
+      <select id="goal-months">
+        <option value="3">3 months</option>
+        <option value="6">6 months</option>
+        <option value="12" selected>12 months</option>
+        <option value="18">18 months</option>
+        <option value="24">24 months</option>
+        <option value="36">36 months</option>
+        <option value="60">60 months</option>
+      </select>
+
+      <button type="submit">Calculate My Savings Plan</button>
+    </form>
+
+    <div id="goal-result" class="goal-result" aria-live="polite">
+      Your estimated savings plan will appear here.
+    </div>
+  </div>
+</section>
+
+<style>
+.goal-section {
+  max-width: 850px;
+  margin: 30px auto;
+  padding: 20px;
+}
+.goal-panel {
+  padding: 25px;
+  border: 1px solid #e0e9e3;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,.05);
+}
+.goal-notice {
+  margin: 18px 0;
+  padding: 14px;
+  background: #fff4d9;
+  color: #654b0c;
+  border-radius: 8px;
+  line-height: 1.6;
+}
+#goal-form { display: grid; gap: 10px; }
+#goal-form label { margin-top: 8px; font-weight: 600; }
+#goal-form input, #goal-form select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccd8d0;
+  border-radius: 8px;
+  font: inherit;
+}
+#goal-form button {
+  margin-top: 12px;
+  padding: 13px;
+  border: 0;
+  border-radius: 8px;
+  background: #176b45;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.goal-result {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 10px;
+  background: #f0f7f2;
+  line-height: 1.7;
+}
+.goal-result strong { color: #176b45; }
+</style>
+
+<script>
+document.getElementById("goal-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const target = Number(document.getElementById("goal-amount").value);
+  const current = Number(document.getElementById("goal-current").value);
+  const months = Number(document.getElementById("goal-months").value);
+  const result = document.getElementById("goal-result");
+
+  if (!Number.isFinite(target) || !Number.isFinite(current) ||
+      target <= 0 || target > 100000000 ||
+      current < 0 || current > 100000000) {
+    result.textContent = "Please enter valid amounts within the permitted range.";
+    return;
+  }
+
+  const remaining = Math.max(0, target - current);
+  const monthly = remaining / months;
+  const fmt = value => "KSh " + value.toLocaleString("en-KE", {
+    maximumFractionDigits: 2
+  });
+
+  result.innerHTML = `
+    <h3>Your Example Savings Plan</h3>
+    <p>Target: <strong>${fmt(target)}</strong></p>
+    <p>Already saved: <strong>${fmt(current)}</strong></p>
+    <p>Remaining amount: <strong>${fmt(remaining)}</strong></p>
+    <p>Time available: <strong>${months} months</strong></p>
+    <p>Suggested monthly saving: <strong>${fmt(monthly)}</strong></p>
+    <small>This estimate assumes regular contributions and no interest, fees, or withdrawals.</small>
+  `;
+});
+</script>
+\n</body>
 </html>
