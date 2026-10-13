@@ -289,6 +289,97 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 \n
+
+<section id="dashboard-overview" class="dashboard-overview">
+  <div class="overview-heading">
+    <h2>Member Overview</h2>
+    <p>Welcome to your demonstration dashboard.</p>
+  </div>
+
+  <div class="overview-grid">
+    <article class="overview-card">
+      <span class="overview-label">Sample Savings</span>
+      <h3>KSh 25,000</h3>
+      <p>Fictional demonstration balance</p>
+      <a href="savings.html">View Savings →</a>
+    </article>
+
+    <article class="overview-card">
+      <span class="overview-label">Sample Loan</span>
+      <h3>KSh 0</h3>
+      <p>No real loan account is connected</p>
+      <a href="loans.html">Explore Loans →</a>
+    </article>
+
+    <article class="overview-card">
+      <span class="overview-label">Transactions</span>
+      <h3>Sample Activity</h3>
+      <p>View fictional transaction records</p>
+      <a href="transactions.html">View Transactions →</a>
+    </article>
+
+    <article class="overview-card">
+      <span class="overview-label">Member Profile</span>
+      <h3>Demo Member</h3>
+      <p>Use fictional information only</p>
+      <a href="profile.html">View Profile →</a>
+    </article>
+  </div>
+
+  <div class="overview-notice">
+    <strong>DEMO ONLY:</strong> These figures are fictional. This page is not
+    connected to Tower SACCO, a real bank account, or a live financial system.
+    Do not enter real financial information.
+  </div>
+</section>
+
+<style>
+.dashboard-overview {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 20px;
+}
+.overview-heading { margin-bottom: 22px; }
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+}
+.overview-card {
+  padding: 24px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid #e0e9e3;
+  box-shadow: 0 4px 14px rgba(0,0,0,.05);
+}
+.overview-label {
+  font-size: 13px;
+  color: #426653;
+  font-weight: 600;
+}
+.overview-card h3 {
+  margin: 14px 0 8px;
+  color: #176b45;
+}
+.overview-card p { line-height: 1.5; }
+.overview-card a {
+  display: inline-block;
+  margin-top: 10px;
+  color: #176b45;
+  font-weight: 600;
+  text-decoration: none;
+}
+.overview-card a:hover { text-decoration: underline; }
+.overview-notice {
+  margin-top: 22px;
+  padding: 16px;
+  border-radius: 10px;
+  background: #fff4d9;
+  color: #654b0c;
+  line-height: 1.6;
+}
+</style>
+
 <footer class="site-footer">
   <div class="footer-content">
     <div>
