@@ -35,5 +35,51 @@ th{color:#123d72}
 <p>These records are examples only. No real financial activity is represented.</p>
 </div>
 </main>
-</body>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const nav = document.querySelector("nav");
+    if (!nav) return;
+
+    const header = nav.parentElement;
+    if (!header) return;
+
+    const button = document.createElement("button");
+    button.className = "mobile-menu-toggle";
+    button.textContent = "☰ Menu";
+    button.setAttribute("aria-expanded", "false");
+    button.style.display = "none";
+    button.style.margin = "10px 0";
+    button.style.padding = "10px 16px";
+    button.style.border = "0";
+    button.style.borderRadius = "8px";
+    button.style.cursor = "pointer";
+
+    header.insertBefore(button, nav);
+
+    function updateMenu() {
+        if (window.innerWidth <= 650) {
+            button.style.display = "inline-block";
+            nav.style.display = button.getAttribute("aria-expanded") === "true" ? "flex" : "none";
+            nav.style.flexDirection = "column";
+            nav.style.alignItems = "flex-start";
+        } else {
+            button.style.display = "none";
+            nav.style.display = "";
+            nav.style.flexDirection = "";
+            nav.style.alignItems = "";
+        }
+    }
+
+    button.addEventListener("click", function () {
+        const open = button.getAttribute("aria-expanded") !== "true";
+        button.setAttribute("aria-expanded", String(open));
+        updateMenu();
+    });
+
+    window.addEventListener("resize", updateMenu);
+    updateMenu();
+});
+</script>
+\n</body>
 </html>
